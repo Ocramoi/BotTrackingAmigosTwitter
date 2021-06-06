@@ -52,12 +52,12 @@ signal.signal(signal.SIGTERM, trataSinal)
 def conferenciaRegistro(api: tweepy.API, registro: str, formato: str) -> int:
     # Estabelesce nome de arquivo local para controle de seguidores
     nomeArq = "Data/{}".format(
-        registro["Usuário"]
+        registro["Usuario"]
     )
 
     # Busca última página de seguidores (máx. 20) e trata erro de API
     try:
-        seguindo = api.friends(screen_name=registro["Usuário"])
+        seguindo = api.friends(screen_name=registro["Usuario"])
     except Exception as e:
         logger.error(e)
         return 1
@@ -81,12 +81,12 @@ def conferenciaRegistro(api: tweepy.API, registro: str, formato: str) -> int:
         if amigo.screen_name == ultimo[0]:
             break
         api.update_status(formato.format(
-            registro["Usuário"],
+            registro["Usuario"],
             amigo.screen_name
         ))
         # Printa tweet escrito (USO EM DEBUGAÇÃO!)
         # print(formato.format(
-        #     registro["Usuário"],
+        #     registro["Usuario"],
         #     amigo.screen_name
         # ))
 
@@ -137,7 +137,7 @@ def main():
             if conferenciaRegistro(api, registro, formato):
                 print("Erro na execução da conferência do usuário @{},\
                 caso o erro persista, confira o perfil!".format(
-                    registro["Usuário"]
+                    registro["Usuario"]
                 ))
             sleep(MAX_REQ_TIMEOUT)
 
